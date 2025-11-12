@@ -4,7 +4,7 @@ import type { WeatherResponse } from '@/types/weatherResponse'
 import { formatTime, getIconUrl } from '@/utils/weatherUtils'
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || ''
-const BASE_URL = 'https://api.openweathermap.org/data/3.0'
+const BASE_URL = 'https://api.openweathermap.org/data/2.5'
 
 export const fetchWeatherData = async (
   city: string,
@@ -12,6 +12,12 @@ export const fetchWeatherData = async (
   hours: HourForecast[]
   days: DayForecast[]
 }> => {
+  if (!API_KEY) {
+    throw new Error(
+      'OpenWeatherMap API key is not configured. Please set VITE_OPENWEATHER_API_KEY in your .env file',
+    )
+  }
+
   const url = `${BASE_URL}/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&cnt=40`
   const response = await fetch(url)
 
