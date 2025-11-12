@@ -15,9 +15,12 @@ const handleSearchCity = (city: string) => {
   weatherStore.loadWeatherData(city)
 }
 
+const handleCityChange = (city: string) => {
+  weatherStore.loadWeatherData(city)
+}
+
 onMounted(() => {
-  // Load initial weather data for default city
-  weatherStore.loadWeatherData('Rio de Janeiro')
+  weatherStore.loadWeatherData(weatherStore.currentCity)
 })
 </script>
 
@@ -25,7 +28,7 @@ onMounted(() => {
   <div class="wrapper">
     <div class="container">
       <WeatherHeader @refresh="handleRefresh" @search-city="handleSearchCity"></WeatherHeader>
-      <WeatherTabs></WeatherTabs>
+      <WeatherTabs @city-change="handleCityChange"></WeatherTabs>
       <WeatherForecast></WeatherForecast>
     </div>
   </div>

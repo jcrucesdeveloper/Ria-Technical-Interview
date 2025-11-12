@@ -3,10 +3,18 @@ const props = defineProps<{
   city: string
   selected?: boolean
 }>()
+
+const emit = defineEmits<{
+  cityClick: [city: string]
+}>()
+
+const handleClick = () => {
+  emit('cityClick', props.city)
+}
 </script>
 
 <template>
-  <button :class="{ selected: props.selected }">{{ props.city }}</button>
+  <button :class="{ selected: props.selected }" @click="handleClick">{{ props.city }}</button>
 </template>
 
 <style scoped>
