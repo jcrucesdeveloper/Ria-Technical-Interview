@@ -5,12 +5,16 @@ const props = defineProps<{
     description: string
     maxTemperature: number
     minTemperature: number
+    icon?: string
   }
 }>()
 </script>
 <template>
   <div class="day-forecast">
-    <img src="https://openweathermap.org/img/wn/01d@2x.png" alt="weather icon" />
+    <img
+      :src="props.day.icon || 'https://openweathermap.org/img/wn/01d@2x.png'"
+      alt="weather icon"
+    />
     <div>
       <p>{{ props.day.date }}</p>
       <p>{{ props.day.description }}</p>

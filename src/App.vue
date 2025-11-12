@@ -1,13 +1,30 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import WeatherHeader from '@/components/WeatherHeader.vue'
 import WeatherTabs from '@/components/WeatherTabs.vue'
 import WeatherForecast from '@/components/WeatherForecast.vue'
+import { useWeatherStore } from '@/store/weather'
+
+const weatherStore = useWeatherStore()
+
+const handleRefresh = () => {
+  weatherStore.refreshWeatherData()
+}
+
+const handleSearchCity = (city: string) => {
+  weatherStore.loadWeatherData(city)
+}
+
+onMounted(() => {
+  // Load initial weather data for default city
+  weatherStore.loadWeatherData('Rio de Janeiro')
+})
 </script>
 
 <template>
   <div class="wrapper">
     <div class="container">
-      <WeatherHeader></WeatherHeader>
+      <WeatherHeader @refresh="handleRefresh" @search-city="handleSearchCity"></WeatherHeader>
       <WeatherTabs></WeatherTabs>
       <WeatherForecast></WeatherForecast>
     </div>

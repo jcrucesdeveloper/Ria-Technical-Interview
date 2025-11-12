@@ -4,6 +4,7 @@ const props = defineProps<{
     time: string
     temperature: number
     humidity: number
+    icon?: string
   }
 }>()
 </script>
@@ -11,7 +12,10 @@ const props = defineProps<{
   <div class="hour-forecast">
     <p>{{ props.hour.temperature }}°C</p>
     <p>{{ props.hour.humidity }}% humidity</p>
-    <img src="https://openweathermap.org/img/wn/01d@2x.png" alt="weather icon" />
+    <img
+      :src="props.hour.icon || 'https://openweathermap.org/img/wn/01d@2x.png'"
+      alt="weather icon"
+    />
     <h3>{{ props.hour.time }}</h3>
   </div>
 </template>

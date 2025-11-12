@@ -3,8 +3,8 @@ import WeatherTab from './WeatherTab.vue'
 </script>
 <template>
   <div class="tabs">
-    <WeatherTab city="Santiago" selected></WeatherTab>
-    <WeatherTab city="Rio de Jainero"></WeatherTab>
+    <WeatherTab city="Rio de Jainero" selected></WeatherTab>
+    <WeatherTab city="Beijing"></WeatherTab>
     <WeatherTab city="Los Angeles"></WeatherTab>
   </div>
 </template>

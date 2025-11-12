@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import HourForecast from '@/components/HourForecast.vue'
-const hours = [
-  { time: '12:00', temperature: 20, humidity: 50 },
-  { time: '13:00', temperature: 21, humidity: 51 },
-  { time: '14:00', temperature: 22, humidity: 52 },
-  { time: '15:00', temperature: 23, humidity: 53 },
-  { time: '16:00', temperature: 24, humidity: 54 },
-]
+import { useWeatherStore } from '@/store/weather'
+
+const weatherStore = useWeatherStore()
 </script>
 
 <template>
   <div class="next-hours-forecast">
     <h1>Next hours forecast</h1>
-    <div class="hours-forecast">
-      <HourForecast v-for="hour in hours" :key="hour.time" :hour="hour" />
+    <div v-if="weatherStore.loading" class="loading">Loading...</div>
+    <div v-else-if="weatherStore.error" class="error">{{ weatherStore.error }}</div>
+    <div v-else class="hours-forecast">
+      <HourForecast
+        v-for="(hour, index) in weatherStore.nextHoursForecast"
+        :key="`${hour.time}-${index}`"
+        :hour="hour"
+      />
     </div>
   </div>
 </template>
@@ -34,5 +36,14 @@ const hours = [
 .hours-forecast {
   display: flex;
   flex-direction: row;
+}
+.loading,
+.error {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+.error {
+  color: #d32f2f;
 }
 </style>

@@ -19,6 +19,11 @@ button {
   border-bottom: 1px solid transparent;
 }
 
+button:hover {
+  color: black;
+  cursor: pointer;
+}
+
 button.selected {
   color: black;
   border-bottom: 5px solid orange;
