@@ -3,7 +3,7 @@ import type { DayForecast } from '@/types/dayForecast'
 import type { WeatherResponse } from '@/types/weatherResponse'
 import { formatTime, getIconUrl } from '@/utils/weatherUtils'
 
-const API_KEY = import.meta.env.OPENWEATHER_API_KEY || ''
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || ''
 const BASE_URL = 'https://api.openweathermap.org/data/2.5'
 
 export const fetchWeatherData = async (
