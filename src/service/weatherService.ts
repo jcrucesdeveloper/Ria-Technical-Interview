@@ -4,7 +4,7 @@ import type { WeatherResponse } from '@/types/weatherResponse'
 import { formatTime, getIconUrl } from '@/utils/weatherUtils'
 
 const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY || ''
-const BASE_URL = 'https://api.openweathermap.org/data/2.5'
+const BASE_URL = 'https://api.openweathermap.org/data/3.0'
 
 export const fetchWeatherData = async (
   city: string,
@@ -12,14 +12,7 @@ export const fetchWeatherData = async (
   hours: HourForecast[]
   days: DayForecast[]
 }> => {
-  if (!API_KEY) {
-    throw new Error(
-      'OpenWeatherMap API key is not configured. Please set VITE_OPENWEATHER_API_KEY in your .env file',
-    )
-  }
-
   const url = `${BASE_URL}/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&cnt=40`
-
   const response = await fetch(url)
 
   if (!response.ok) {
@@ -33,8 +26,6 @@ export const fetchWeatherData = async (
   }
 
   const data: WeatherResponse = await response.json()
-
-  // Next 24 hours (next 8 forecasts, 3-hour intervals)
   const hours: HourForecast[] = data.list.slice(0, 8).map((item) => ({
     time: formatTime(item.dt),
     temperature: Math.round(item.main.temp),
@@ -42,7 +33,6 @@ export const fetchWeatherData = async (
     icon: item.weather[0]?.icon ? getIconUrl(item.weather[0].icon) : undefined,
   }))
 
-  // Next 5 days (group by date and get daily max/min)
   const dailyData = new Map<
     string,
     {
@@ -77,7 +67,7 @@ export const fetchWeatherData = async (
     .map(([date, dayData]) => {
       const maxTemp = Math.round(Math.max(...dayData.temps))
       const minTemp = Math.round(Math.min(...dayData.temps))
-      // Use the most common description or the first one
+
       const description = dayData.descriptions[0] || 'Clear'
       const iconCode = dayData.icons[0]
       const icon = iconCode ? getIconUrl(iconCode) : undefined

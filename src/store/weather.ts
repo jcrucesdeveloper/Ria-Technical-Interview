@@ -12,6 +12,7 @@ export const useWeatherStore = defineStore('weather', () => {
   const nextDaysForecast = ref<DayForecast[]>([])
   const loading = ref<boolean>(false)
   const error = ref<string | null>(null)
+  const searchedCities = ref<string[]>([])
 
   const loadWeatherData = async (city: string) => {
     loading.value = true
@@ -21,6 +22,11 @@ export const useWeatherStore = defineStore('weather', () => {
       currentCity.value = city
       nextHoursForecast.value = data.hours
       nextDaysForecast.value = data.days
+
+      const normalizedCity = city.trim()
+      if (!searchedCities.value.includes(normalizedCity)) {
+        searchedCities.value.push(normalizedCity)
+      }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to load weather data'
       console.error('Error loading weather data:', err)
@@ -41,6 +47,7 @@ export const useWeatherStore = defineStore('weather', () => {
     nextDaysForecast,
     loading,
     error,
+    searchedCities,
     loadWeatherData,
     refreshWeatherData,
   }

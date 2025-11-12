@@ -8,9 +8,11 @@ const emit = defineEmits<{
 
 const searchInput = ref('')
 
-const handleSearch = () => {
-  if (searchInput.value.trim()) {
-    emit('searchCity', searchInput.value.trim())
+const handleSearch = (event?: Event) => {
+  event?.preventDefault()
+  const city = searchInput.value.trim()
+  if (city) {
+    emit('searchCity', city)
     searchInput.value = ''
   }
 }
@@ -34,7 +36,7 @@ const handleRefresh = () => {
         class="search-input"
         @keyup.enter="handleSearch"
       />
-      <button class="search-btn" @click="handleSearch">Search</button>
+      <button type="button" class="search-btn" @click="handleSearch">Search</button>
     </div>
   </header>
 </template>
